@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 function connectionFactory() {
   const sslCaRaw = process.env.DB_SSL_CA;
