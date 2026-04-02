@@ -131,6 +131,55 @@ header .nav-bottom .config-site .config .cta {
   height: 100%;
 }
 
+@media (max-width: 900px) {
+  header .nav-top {
+    width: 92%;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+  header .search-box {
+    width: 100%;
+    order: 3;
+  }
+  header .nav-top .actions-items {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  header .nav-bottom {
+    width: 92%;
+    flex-wrap: wrap;
+    height: auto;
+    padding: 10px 0;
+    gap: 10px;
+  }
+  header .nav-bottom .links {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  header .nav-bottom .config-site {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 12px;
+  }
+  header .vertical-line {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  header .nav-top .actions-items .action-item a {
+    font-size: 13px;
+  }
+  header .nav-bottom .links a {
+    font-size: 13px;
+  }
+}
+
 /* Header Dropdowns */
 header .dropdown .submenu-dropdown {
   box-shadow: 4px 2px 8px rgba(0,0,0,.05);

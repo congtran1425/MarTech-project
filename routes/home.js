@@ -8,14 +8,14 @@ module.exports = (app) => {
 
     categoriesDAO.list()
         .then((result) => categories = result)
-        .catch((err) => warning = 'it was not possible list categories');
+        .catch((err) => warning = 'Không thể tải danh mục');
     productsDAO.list(9)
         .then((result) => products = result)
-        .catch((err) => warning = 'it was not possible list products');
+        .catch((err) => warning = 'Không thể tải sản phẩm');
 
     setTimeout(() => {
       res.status(200).render('home/index', {
-        title: 'Home',
+        title: 'Trang chủ',
         categories, products,
         success, warning,
         user: req.session['user'],

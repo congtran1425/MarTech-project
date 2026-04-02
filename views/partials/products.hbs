@@ -4,110 +4,110 @@
       <a href="#" class="category">
         <div class="label">
           <img src="/img/icons/category/ic_desktop_windows.png" class="category-img">
-          <p class="category-name">Computers</p>
+          <p class="category-name">Áo thun</p>
         </div>
         <img src="/img/icons/ic_arrow_right.png" class="categoty-cta">
       </a>
       <a href="#" class="category">
         <div class="label">
           <img src="/img/icons/category/ic_desktop_windows.png" class="category-img">
-          <p class="category-name">Apple Computers</p>
+          <p class="category-name">Áo sơ mi</p>
         </div>
         <img src="/img/icons/ic_arrow_right.png" class="categoty-cta">
       </a>
       <a href="#" class="category">
         <div class="label">
           <img src="/img/icons/category/ic_laptop.png" class="category-img">
-          <p class="category-name">Laptops</p>
+          <p class="category-name">Áo khoác</p>
         </div>
         <img src="/img/icons/ic_arrow_right.png" class="categoty-cta">
       </a>
       <a href="#" class="category">
         <div class="label">
           <img src="/img/icons/category/ic_keyboard.png" class="category-img">
-          <p class="category-name">Keyboard</p>
+          <p class="category-name">Quần jeans</p>
         </div>
         <img src="/img/icons/ic_arrow_right.png" class="categoty-cta">
       </a>
       <a href="#" class="category">
         <div class="label">
           <img src="/img/icons/category/ic_memory.png" class="category-img">
-          <p class="category-name">Computer Components</p>
+          <p class="category-name">Quần short</p>
         </div>
         <img src="/img/icons/ic_arrow_right.png" class="categoty-cta">
       </a>
       <a href="#" class="category">
         <div class="label">
           <img src="/img/icons/category/ic_speaker.png" class="category-img">
-          <p class="category-name">Accessories</p>
+          <p class="category-name">Váy/đầm</p>
         </div>
         <img src="/img/icons/ic_arrow_right.png" class="categoty-cta">
       </a>
       <a href="#" class="category">
         <div class="label">
           <img src="/img/icons/category/ic_phone_iphone.png" class="category-img">
-          <p class="category-name">Cell Phones</p>
+          <p class="category-name">Hoodie</p>
         </div>
         <img src="/img/icons/ic_arrow_right.png" class="categoty-cta">
       </a>
       <a href="#" class="category">
         <div class="label">
           <img src="/img/icons/category/ic_tv.png" class="category-img">
-          <p class="category-name">TV & Video</p>
+          <p class="category-name">Phụ kiện</p>
         </div>
         <img src="/img/icons/ic_arrow_right.png" class="categoty-cta">
       </a>
       <a href="#" class="category">
         <div class="label">
           <img src="/img/icons/category/ic_videogame_asset.png" class="category-img">
-          <p class="category-name">Game consoles</p>
+          <p class="category-name">Giày & Sneaker</p>
         </div>
         <img src="/img/icons/ic_arrow_right.png" class="categoty-cta">
       </a>
       <a href="#" class="category">
         <div class="label">
           <img src="/img/icons/category/ic_watch.png" class="category-img">
-          <p class="category-name">Watches</p>
+          <p class="category-name">Trẻ em</p>
         </div>
         <img src="/img/icons/ic_arrow_right.png" class="categoty-cta">
       </a>
     </div>
     <div class="promo-code">
       <div class="texts">
-        <p class="title">Look Up In The Sky</p>
-        <p class="desc">Astronomy Or Astrology</p>
+        <p class="title">Bộ sưu tập mới</p>
+        <p class="desc">Phong cách tối giản</p>
       </div>
     </div>
   </aside>
   <main>
     <nav>
       <ul class="filters">
-        <li class="filter"><a href="/order/rating">Popular products</a></li>
-        <li class="filter"><a href="/order/low-price">Low price</a></li>
-        <li class="filter"><a href="/order/price">High price</a></li>
+        <li class="filter"><a href="/order/rating">Phổ biến</a></li>
+        <li class="filter"><a href="/order/low-price">Giá thấp</a></li>
+        <li class="filter"><a href="/order/price">Giá cao</a></li>
       </ul>
       <div class="display">
         <div class="vertical-line"></div>
         <a href="#">
-          <img src="/img/icons/ic_view_grid.png" alt="Display Grid">
+          <img src="/img/icons/ic_view_grid.png" alt="Hiển thị dạng lưới">
         </a>
         <div class="vertical-line"></div>
         <a href="#">
-          <img src="/img/icons/ic_view_list.png" alt="Display Line">
+          <img src="/img/icons/ic_view_list.png" alt="Hiển thị dạng danh sách">
         </a>
       </div>
     </nav>
     <div class="products-list">
       {{# each products}}
-        <form class="product">
+        <div class="product product-card-link" data-href="/product/{{this.id}}">
           <div class="labels">
-            <p class="promotion">Sale</p>
+            <p class="promotion">Giảm giá</p>
             <div class="actions">
               <a href="/add-to-cart/{{this.id}}" class="add-list">
-                <img src="/img/icons/ic_add_list.png" alt="Add to list">
+                <img src="/img/icons/ic_add_list.png" alt="Thêm vào danh sách">
               </a>
               <a href="/add-to-favorite/{{this.id}}" class="add-favorites">
-                <img src="/img/icons/ic_favorite_border.png" alt="Add to favorites">
+                <img src="/img/icons/ic_favorite_border.png" alt="Thêm vào yêu thích">
               </a>
             </div>
           </div>
@@ -117,15 +117,24 @@
           <div id="rating" data-rating="{{this.rating}}"></div>
 
           <div class="price">
-            <p class="price-value">$ {{this.price}}</p>
+            <p class="price-value" data-price="{{this.price}}"></p>
             <a href="/add-to-cart/{{this.id}}">
-              <img src="/img/icons/ic_shopping_cart.png" alt="Add to cart">
+              <img src="/img/icons/ic_shopping_cart.png" alt="Thêm vào giỏ">
             </a>
           </div>
-        </form>
+        </div>
       {{/each}}
     </div>
   </main>
 </section>
 
 <script src="/js/rating.js"></script>
+<script>
+  document.querySelectorAll('.product-card-link').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      const href = card.getAttribute('data-href');
+      if (href) window.location.href = href;
+    });
+  });
+</script>

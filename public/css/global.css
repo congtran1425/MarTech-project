@@ -55,6 +55,15 @@ main {
   background-color: #f5f5f5;
 }
 
+@media (max-width: 900px) {
+  .container {
+    margin: 1.5em auto;
+  }
+  .msg-div {
+    width: 92vw;
+  }
+}
+
 /* Dropdown */
 .dropdown {
   position: relative;

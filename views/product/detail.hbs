@@ -1,0 +1,115 @@
+<section class="product-detail">
+  <div class="product-detail__media">
+    <img src="/img/products/{{product.img_url}}" alt="{{product.name}}">
+  </div>
+  <div class="product-detail__info">
+    <h1 class="product-detail__title">{{product.name}}</h1>
+    <p class="product-detail__meta">
+      {{#if product.categoryname}}Danh mục: {{product.categoryname}}{{/if}}
+      {{#if product.gendername}} | Giới tính: {{product.gendername}}{{/if}}
+    </p>
+    <p class="product-detail__price">Giá: {{product.price}} VND</p>
+
+    <div class="product-detail__variants">
+      <h3>Biến thể</h3>
+      {{#if variants.length}}
+        <form action="/add-to-cart" method="post" class="product-detail__form">
+          <input type="hidden" name="_csrf" value="{{csrfToken}}">
+          <input type="hidden" name="product_id" value="{{product.id}}">
+          <input type="hidden" name="variant_id" id="variant-id" value="">
+
+          <div class="product-detail__selectors">
+            <label for="size-select">Size</label>
+            <select id="size-select" name="size_id"></select>
+          </div>
+          <div class="product-detail__selectors">
+            <label for="color-select">Màu</label>
+            <select id="color-select" name="color_id"></select>
+          </div>
+
+          <div class="product-detail__variant-meta">
+            <span id="variant-sku">SKU: -</span>
+            <span id="variant-stock">Tồn kho: </span>
+          </div>
+
+                    <div class="product-detail__selectors">
+            <label for="qty-input">Số lượng</label>
+            <input type="number" id="qty-input" name="quantity" min="1" max="99" value="1">
+          </div>
+
+<div class="product-detail__actions">
+            <button type="submit" name="redirect" value="back" class="btn-primary">Thêm vào giỏ</button>
+            <button type="submit" name="redirect" value="cart" class="btn-secondary">Mua ngay</button>
+          </div>
+        </form>
+      {{else}}
+        <p>Chưa có biến thể cho sản phẩm này.</p>
+      {{/if}}
+    </div>
+  </div>
+</section>
+
+{{#if variants.length}}
+<script>
+  const variants = [
+    {{#each variants}}
+      {
+        id: {{this.id}},
+        size_id: {{this.size_id}},
+        size_code: "{{this.size_code}}",
+        color_id: {{this.color_id}},
+        color_name: "{{this.color_name}}",
+        color_hex: "{{this.color_hex}}",
+        stock: {{this.stock}},
+        sku: "{{this.sku}}"
+      },
+    {{/each}}
+  ];
+
+  const sizeSelect = document.getElementById('size-select');
+  const colorSelect = document.getElementById('color-select');
+  const variantIdInput = document.getElementById('variant-id');
+  const skuEl = document.getElementById('variant-sku');
+  const stockEl = document.getElementById('variant-stock');
+
+  const sizes = {};
+  const colors = {};
+  variants.forEach(v => {
+    if (!sizes[v.size_id]) sizes[v.size_id] = v.size_code;
+    if (!colors[v.color_id]) colors[v.color_id] = {name: v.color_name, hex: v.color_hex};
+  });
+
+  Object.entries(sizes).forEach(([id, code]) => {
+    const opt = document.createElement('option');
+    opt.value = id;
+    opt.textContent = code;
+    sizeSelect.appendChild(opt);
+  });
+
+  Object.entries(colors).forEach(([id, info]) => {
+    const opt = document.createElement('option');
+    opt.value = id;
+    opt.textContent = info.name;
+    colorSelect.appendChild(opt);
+  });
+
+  function syncVariant() {
+    const sizeId = parseInt(sizeSelect.value, 10);
+    const colorId = parseInt(colorSelect.value, 10);
+    const match = variants.find(v => v.size_id === sizeId && v.color_id === colorId);
+    if (match) {
+      variantIdInput.value = match.id;
+      skuEl.textContent = `SKU: ${match.sku}`;
+      stockEl.textContent = `T?n kho: ${match.stock}`;
+    } else {
+      variantIdInput.value = '';
+      skuEl.textContent = 'SKU: -';
+      stockEl.textContent = 'T?n kho: -';
+    }
+  }
+
+  sizeSelect.addEventListener('change', syncVariant);
+  colorSelect.addEventListener('change', syncVariant);
+  syncVariant();
+</script>
+{{/if}}

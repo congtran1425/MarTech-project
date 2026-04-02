@@ -3,12 +3,12 @@ module.exports = (app) => {
     let success; const warning = app.helpers.msg(req);
 
     if (req.session['user'] || req.session['user'] != null) {
-      req.session['warning'] = 'You are not able to access this area!';
+      req.session['warning'] = 'Bạn không thể truy cập khu vực này!';
       return res.redirect('/');
     }
 
     res.render('sign/up', {
-      title: 'Sign Up',
+      title: 'Đăng ký',
       success, warning,
       csrfToken: req.csrfToken(),
     });
@@ -19,13 +19,13 @@ module.exports = (app) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    req.checkBody('username', 'Username is Empty').notEmpty().isLength({min: 4});
-    req.checkBody('email', 'Email is not Valid').notEmpty().isEmail();
-    req.checkBody('password', 'Password must be at least 4 digits').notEmpty();
+    req.checkBody('username', 'Tên người dùng không được để trống').notEmpty().isLength({min: 4});
+    req.checkBody('email', 'Email không hợp lệ').notEmpty().isEmail();
+    req.checkBody('password', 'Mật khẩu phải có ít nhất 4 ký tự').notEmpty();
     const errosInValidation = req.validationErrors();
     if (errosInValidation) {
       req.session['warning'] = errosInValidation[0].msg;
-      res.redirect('/sign-up');
+      return res.redirect('/sign-up');
     };
 
     const connection = app.dao.connectionFactory();

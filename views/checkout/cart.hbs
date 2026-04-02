@@ -1,1 +1,33 @@
-<h1>Cart</h1>
+<section class="cart">
+  <h1>Giỏ hàng</h1>
+
+  {{#if warning}}
+    <p>{{warning}}</p>
+  {{/if}}
+
+  {{#if products.length}}
+    <div class="cart-list">
+      {{#each products}}
+        <div class="cart-item">
+          <img src="/img/products/{{this.img_url}}" alt="{{this.name}}" class="cart-item__img">
+          <div class="cart-item__info">
+            <p class="cart-item__name">{{this.name}}</p>
+            <p class="cart-item__price" data-price="{{this.price}}"></p>
+            <form action="/cart/update" method="post" class="cart-item__qty-form">
+              <input type="hidden" name="_csrf" value="{{../csrfToken}}">
+              <input type="hidden" name="product_id" value="{{this.id}}">
+              <label class="cart-item__qty-label">Số lượng</label>
+              <input type="number" name="quantity" min="0" max="99" value="{{this.quantity}}" class="cart-item__qty-input">
+              <button type="submit" class="cart-item__qty-btn">Cập nhật</button>
+            </form>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+
+    <div class="cart-actions">
+      <a href="/" class="btn-secondary">Ti&#x1ebf;p t&#x1ee5;c mua s&#x1eaf;m</a>
+      <a href="/checkout" class="btn-primary">Thanh to&#xe1;n</a>
+    </div>
+  {{/if}}
+</section>
