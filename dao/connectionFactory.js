@@ -1,7 +1,8 @@
 const mysql = require('mysql');
 
 function connectionFactory() {
-  const sslCa = process.env.DB_SSL_CA;
+  const sslCaRaw = process.env.DB_SSL_CA;
+  const sslCa = sslCaRaw ? sslCaRaw.replace(/\\n/g, '\n') : undefined;
   const useSsl = !!sslCa || process.env.DB_SSL === 'true' || process.env.DB_SSL === '1';
 
   return mysql.createConnection({
