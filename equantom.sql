@@ -185,15 +185,20 @@ CREATE TABLE `users` (
 
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
-  `user_email` varchar(255) DEFAULT NULL,
-  `full_name` varchar(255) NOT NULL,
-  `phone` varchar(50) NOT NULL,
-  `address` varchar(255) NOT NULL,
+  `customer_email` varchar(255) NOT NULL,
   `note` text DEFAULT NULL,
   `total_amount` decimal(12,2) NOT NULL,
   `status` varchar(50) NOT NULL DEFAULT 'pending',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- If you already have an existing `orders` table, you can migrate with:
+-- ALTER TABLE `orders`
+--   DROP COLUMN `user_email`,
+--   DROP COLUMN `full_name`,
+--   DROP COLUMN `phone`,
+--   DROP COLUMN `address`,
+--   ADD COLUMN `customer_email` varchar(255) NOT NULL AFTER `id`;
 
 -- --------------------------------------------------------
 

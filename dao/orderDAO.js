@@ -9,12 +9,9 @@ class OrderDAO {
         if (err) return reject(err);
 
         this.connection.query(
-            'INSERT INTO orders (user_email, full_name, phone, address, note, total_amount, status) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            'INSERT INTO orders (customer_email, note, total_amount, status) VALUES (?, ?, ?, ?)',
             [
-              order.user_email,
-              order.full_name,
-              order.phone,
-              order.address,
+              order.customer_email,
               order.note || null,
               order.total_amount,
               order.status || 'pending',

@@ -1,18 +1,10 @@
 module.exports = (app) => {
-  const requireAuth = (req, res, next) => {
-    if (!req.session['user']) {
-      req.session['warning'] = 'B\u1ea1n c\u1ea7n \u0111\u0103ng nh\u1eadp \u0111\u1ec3 th\u00eam s\u1ea3n ph\u1ea9m v\u00e0o gi\u1ecf h\u00e0ng!';
-      return res.redirect('/sign-in');
-    }
-    return next();
-  };
-
   app.get('/cart', (req, res) => {
-    let success; const warning = app.helpers.msg(req);
+    let success;
+    let warning = app.helpers.msg(req);
     const connection = app.dao.connectionFactory();
     const productsDao = new app.dao.productsDAO(connection);
 
-    // Get list of ID of product in cart
     const rawCartIds = req.cookies['productsInCart'];
     const productsInCartIds = rawCartIds
       ? rawCartIds.toString().split(',').filter(Boolean)
@@ -25,6 +17,7 @@ module.exports = (app) => {
     const uniqueIds = Object.keys(quantityMap);
 
     if (uniqueIds.length === 0) {
+      connection.end();
       return res.render('checkout/cart', {
         title: 'Gi\u1ecf h\u00e0ng',
         warning: 'Gi\u1ecf h\u00e0ng c\u1ee7a b\u1ea1n \u0111ang tr\u1ed1ng!',
@@ -33,21 +26,34 @@ module.exports = (app) => {
     }
 
     productsDao.getById(uniqueIds.join(','))
-        .then((products) => {
-          const productsWithQty = products.map((p) => ({
-            ...p,
-            quantity: quantityMap[p.id] || 1,
-          }));
-          res.render('checkout/cart', {
-            title: 'Giỏ hàng',
-            success, warning,
-            products: productsWithQty,
-            csrfToken: req.csrfToken(),
-          });
-        })
-        .catch((err) => console.log(err));
+      .then((products) => {
+        const productsWithQty = products.map((p) => ({
+          ...p,
+          quantity: quantityMap[p.id] || 1,
+        }));
+        return res.render('checkout/cart', {
+          title: 'Gi\u1ecf h\u00e0ng',
+          success,
+          warning,
+          products: productsWithQty,
+          csrfToken: req.csrfToken(),
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        warning = '\u004b\u0068\u00f4\u006e\u0067\u0020\u0074\u1ea3\u0069\u0020\u0111\u01b0\u1ee3\u0063\u0020\u0064\u1eef\u0020\u006c\u0069\u1ec7\u0075';
+        return res.render('checkout/cart', {
+          title: 'Gi\u1ecf h\u00e0ng',
+          warning,
+          csrfToken: req.csrfToken(),
+        });
+      })
+      .finally(() => {
+        connection.end();
+      });
   });
-  app.get('/add-to-cart/:id', requireAuth, (req, res) => {
+
+  app.get('/add-to-cart/:id', (req, res) => {
     const id = req.params.id;
     const redirectTo = req.header('Referer') || '/';
     const current = req.cookies['productsInCart'];
@@ -57,7 +63,7 @@ module.exports = (app) => {
     return res.redirect(redirectTo);
   });
 
-  app.post('/add-to-cart', requireAuth, (req, res) => {
+  app.post('/add-to-cart', (req, res) => {
     const productId = req.body.product_id;
     const variantId = req.body.variant_id;
     const redirect = req.body.redirect === 'cart' ? '/cart' : (req.header('Referer') || '/');
@@ -80,7 +86,7 @@ module.exports = (app) => {
     return res.redirect(redirect);
   });
 
-  app.post('/cart/update', requireAuth, (req, res) => {
+  app.post('/cart/update', (req, res) => {
     const productId = req.body.product_id;
     const quantity = Math.max(0, Math.min(parseInt(req.body.quantity || '0', 10) || 0, 99));
     const redirectTo = req.header('Referer') || '/cart';
